@@ -106,7 +106,11 @@ d-tools {
 d-frame {
     position: absolute;
     background: #fff;
-    border: 1px solid #333;
+    outline: 1px solid color(display-p3 0.81 0.88 0.91);
+
+    &:hover {
+        outline: 1px solid color(display-p3 0 0.698 1);
+    }
 }
 
 d-frame-icon {

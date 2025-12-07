@@ -1,6 +1,8 @@
 import "./style.css";
 
-let endFrameController = new AbortController();
+let stopDrawingFrame = new AbortController();
+let stopMoving = new AbortController();
+
 let frameId = 0;
 
 const startFrame = (e: MouseEvent) => {
@@ -31,30 +33,37 @@ const drawFrame = (e: MouseEvent) => {
 const endFrame = () => {
   frameId++;
 
-  endFrameController.abort();
+  stopDrawingFrame.abort();
 };
 
 const activateFrame = () => {
+  stopMoving.abort();
   document.body.style.setProperty("--cursor", "crosshair");
-  endFrameController = new AbortController();
+  stopDrawingFrame = new AbortController();
 
-  endFrameController.signal.addEventListener("abort", () => {
+  stopDrawingFrame.signal.addEventListener("abort", () => {
     activateMove();
   });
 
   document.body.addEventListener("mousedown", startFrame, {
-    signal: endFrameController.signal,
+    signal: stopDrawingFrame.signal,
   });
   document.body.addEventListener("mousemove", drawFrame, {
-    signal: endFrameController.signal,
+    signal: stopDrawingFrame.signal,
   });
   document.body.addEventListener("mouseup", endFrame, {
-    signal: endFrameController.signal,
+    signal: stopDrawingFrame.signal,
   });
 };
 document.getElementById("frame")?.addEventListener("click", activateFrame);
 
 const activateMove = () => {
+  if (!stopMoving.signal.aborted) {
+    return;
+  }
+
+  stopMoving = new AbortController();
+
   document.body.style.setProperty("--cursor", "move");
   let activeFrame: HTMLElement | null;
   let frameLeft = 0;
@@ -80,22 +89,49 @@ const activateMove = () => {
           }
         }
       },
+      { signal: stopMoving.signal },
     );
-    frame.addEventListener("mousemove", ({ clientX, clientY }) => {
+
+    frame.addEventListener(
+      "contextmenu",
+      (e) => {
+        e.preventDefault();
+        frame.remove();
+      },
+      {
+        signal: stopMoving.signal,
+      },
+    );
+  });
+
+  // figma listens on mouse position even when mouse is outside browser window
+  // replicate?????
+  document.body.addEventListener(
+    "mousemove",
+    ({ clientX, clientY }) => {
       if (activeFrame) {
         activeFrame.style.top = `${clientY - frameTop}px`;
         activeFrame.style.left = `${clientX - frameLeft}px`;
       }
-    });
+    },
+    { signal: stopMoving.signal },
+  );
 
-    frame.addEventListener("mouseup", () => {
+  document.body.addEventListener(
+    "mouseup",
+    () => {
       activeFrame = null;
-    });
-  });
+    },
+    { signal: stopMoving.signal },
+  );
 };
 
-document.getElementById("move")?.addEventListener("click", activateMove);
+const moveButton = document.getElementById("move");
+moveButton?.addEventListener("click", activateMove);
 
-document.getElementById("rectangle")?.addEventListener("click", () => {
+const activateRectangle = () => {
   document.body.style.setProperty("--cursor", "crosshair");
-});
+  stopMoving.abort();
+};
+const rectangleButton = document.getElementById("rectangle");
+rectangleButton?.addEventListener("click", activateRectangle);

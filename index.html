@@ -1,45 +1,57 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ddrawer</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ddrawer</title>
-</head>
-
-<body>
-  <!-- <template id="productrow">
+    <body>
+        <!-- <template id="productrow">
        <tr>
        <td class="record"></td>
        <td></td>
        </tr>
        </template>
   -->
-    <div id="app">
-        <d-tools>
-            <d-tooltip for="frame">
-                Frame
-            </d-tooltip>
-            <d-tooltip for="move">
-                Move
-            </d-tooltip>
-            <d-tooltip for="rectangle">
-                Rectangle
-            </d-tooltip>
+        <div id="app">
+            <d-tools>
+                <d-tooltip for="frame"> Frame </d-tooltip>
+                <d-tooltip for="move"> Move </d-tooltip>
+                <d-tooltip for="rectangle"> Rectangle </d-tooltip>
 
-            <button id="frame">
-                <d-frame-icon></d-frame-icon>
-            </button>
-            <button id="move">
-<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 3L10 22L12.0513 15.8461C12.6485 14.0544 14.0544 12.6485 15.846 12.0513L22 10L3 3Z" stroke="#000000" stroke-width="1.104" stroke-linejoin="round"></path> </g></svg>
-            </button>
-            <button id="rectangle">
-                <d-rectangle-icon></d-rectangle-icon>
-            </button>
-        </d-tools>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
-</body>
-
+                <button id="frame">
+                    <d-frame-icon></d-frame-icon>
+                </button>
+                <button id="move">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#000000"
+                    >
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g
+                            id="SVGRepo_tracerCarrier"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M3 3L10 22L12.0513 15.8461C12.6485 14.0544 14.0544 12.6485 15.846 12.0513L22 10L3 3Z"
+                                stroke="#000000"
+                                stroke-width="1.104"
+                                stroke-linejoin="round"
+                            ></path>
+                        </g>
+                    </svg>
+                </button>
+                <button id="rectangle">
+                    <d-rectangle-icon></d-rectangle-icon>
+                </button>
+            </d-tools>
+        </div>
+        <script type="module" src="/src/main.ts"></script>
+    </body>
 </html>
